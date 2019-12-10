@@ -32,4 +32,4 @@ for (var i in appData.expenses){
 
 alert("your bujet for one day: " + one_day / 30);
 
-//console.log(appData.bujet);
+console.log(appData);
