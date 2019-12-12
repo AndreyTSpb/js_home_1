@@ -1,7 +1,6 @@
-let money = +prompt("Ваш бюджет на месяц?: ", ''),
-    time  = prompt("Введите дату в формате YYYY-MM-DD", ''), 
+let money = "",
+    time  = "", 
     one_day = 0;
-
 
 /*Создаем обьект*/
 let appData = {
@@ -13,6 +12,17 @@ let appData = {
     savings : true,
     monthIncome: 0
 };
+
+function start(){
+    money = +prompt("Ваш бюджет на месяц?: ", '');
+    time  = prompt("Введите дату в формате YYYY-MM-DD", '');
+
+    if(isNaN(money) || money == null || money == ""){
+        money = +prompt("Ваш бюджет на месяц?: ", '');
+    }
+    appData.timeData = time;
+}
+start();
 
 function detectDayBugget(money){
     appData.bujet       = money;
@@ -36,6 +46,14 @@ function chooseOptExpenses(){
     }
 }
 
+function chooseIncome(){
+    let ans = prompt("Укажитедополнительные доходы (разделитель запятая)",'');
+    if(!isNaN(ans) || ans == null || ans == ""){
+        ans = prompt("Укажитедополнительные доходы (разделитель запятая)",'');
+    }
+     appData.income = ans.split(', ');
+}
+chooseIncome();
 detectDayBugget(money);
 alert(detectLevel());
 
@@ -81,11 +99,36 @@ function summExpenses(){
      addExpenses();
  }
 
+ if(appData.income.length > 0){
+     let str = "";
+     appData.income.forEach(function(item, i){
+         k = ++i;
+        str += "your income# " + k + " : " + item + "\n";
+     });
+     if(str.length >0) {alert(str);}
+ }
+
  if(appData.expenses){
      summExpenses();
  }
 
  checkSavings();
 
+ function viewData(){
+     let str = "Our programm has in data: \n";
 
-console.log(appData);
+     for (let key in appData){
+         if(appData[key] !== null && typeof appData[key] === 'object'){
+             str += key+ " : \n";
+             for(let key2 in appData[key]){
+                 str += "    " + key2 + " : " + appData[key][key2] + "\n"; 
+             }
+         }else{
+            str += key + " : " + appData[key] + '\n';
+         }
+    
+     }
+     return str;
+ }
+
+console.log(viewData());
